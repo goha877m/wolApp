@@ -2,7 +2,10 @@ package goha.win.wol;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.wifi.WifiManager;
+import android.net.ConnectivityManager;
+import android.net.LinkAddress;
+import android.net.LinkProperties;
+import android.net.Network;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -20,8 +23,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.util.List;
-import java.util.Locale;
 
 import goha.win.wol.adapter.DeviceAdapter;
 import goha.win.wol.data.DeviceStore;
@@ -62,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements DeviceAdapter.Lis
             device.setLatencyMs(latencyMs);
             adapter.refresh(device);
             updateSummary();
+            finishOneCheck();
         }
 
         @Override
@@ -70,7 +75,17 @@ public class MainActivity extends AppCompatActivity implements DeviceAdapter.Lis
             device.setLatencyMs(-1);
             adapter.refresh(device);
             updateSummary();
+            finishOneCheck();
         }
+    };
+
+    /** 全部检测的剩余台数，用于恢复按钮状态。 */
+    private int pendingChecks = 0;
+
+    /** 兜底：网络异常导致回调缺失时，也能把「全部检测」按钮恢复。 */
+    private final Runnable resetCheckUi = () -> {
+        pendingChecks = 0;
+        setCheckingUi(false);
     };
 
     private final DeviceScanner.WakeWatcher wakeWatcher = new DeviceScanner.WakeWatcher() {
@@ -194,23 +209,32 @@ public class MainActivity extends AppCompatActivity implements DeviceAdapter.Lis
                 : getString(R.string.home_subtitle_ip, ip));
     }
 
-    /** 读取当前 Wi-Fi 的 IPv4，未连接时返回 null。 */
+    /** 读取当前网络的 IPv4 地址，未联网或只有 IPv6 时返回 null。 */
     private String detectLocalIp() {
         try {
-            WifiManager wifiManager = (WifiManager) getApplicationContext()
-                    .getSystemService(Context.WIFI_SERVICE);
-            if (wifiManager == null) {
+            ConnectivityManager connectivityManager =
+                    (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (connectivityManager == null) {
                 return null;
             }
-            int ip = wifiManager.getConnectionInfo().getIpAddress();
-            if (ip == 0) {
+            Network network = connectivityManager.getActiveNetwork();
+            if (network == null) {
                 return null;
             }
-            return String.format(Locale.US, "%d.%d.%d.%d",
-                    ip & 0xFF, (ip >> 8) & 0xFF, (ip >> 16) & 0xFF, (ip >> 24) & 0xFF);
-        } catch (Exception e) {
-            return null;
+            LinkProperties properties = connectivityManager.getLinkProperties(network);
+            if (properties == null) {
+                return null;
+            }
+            for (LinkAddress linkAddress : properties.getLinkAddresses()) {
+                InetAddress address = linkAddress.getAddress();
+                if (address instanceof Inet4Address && !address.isLoopbackAddress()) {
+                    return address.getHostAddress();
+                }
+            }
+        } catch (Exception ignored) {
+            // 权限缺失或系统服务异常时按未连接处理
         }
+        return null;
     }
 
     // ------------------------------------------------------------ 用户操作
@@ -220,9 +244,25 @@ public class MainActivity extends AppCompatActivity implements DeviceAdapter.Lis
         if (devices.isEmpty()) {
             return;
         }
+        pendingChecks = devices.size();
+        setCheckingUi(true);
         scanner.checkAll(devices, scanCallback);
-        btnCheckAll.setEnabled(false);
-        btnCheckAll.postDelayed(() -> btnCheckAll.setEnabled(true), 1800L);
+
+        btnCheckAll.removeCallbacks(resetCheckUi);
+        btnCheckAll.postDelayed(resetCheckUi, 6000L);
+    }
+
+    /** 每台设备检测结束调用一次，全部完成即恢复按钮。 */
+    private void finishOneCheck() {
+        if (pendingChecks > 0 && --pendingChecks == 0) {
+            btnCheckAll.removeCallbacks(resetCheckUi);
+            setCheckingUi(false);
+        }
+    }
+
+    private void setCheckingUi(boolean checking) {
+        btnCheckAll.setEnabled(!checking);
+        btnCheckAll.setText(checking ? R.string.checking_all : R.string.check_all);
     }
 
     private void openEditor(Device device) {

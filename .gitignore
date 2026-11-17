@@ -1,0 +1,31 @@
+*.iml
+.gradle
+/local.properties
+local.properties
+
+# IDE
+/.idea/
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+/.idea/deploymentTargetSelector.xml
+
+# Build
+/build
+/app/build
+/captures
+.externalNativeBuild
+.cxx
+
+# 工具 / 日志
+/.workbuddy/
+*.log
+build-verify.log
+gradle-migrate.log
+
+# 系统
+.DS_Store
+Thumbs.db

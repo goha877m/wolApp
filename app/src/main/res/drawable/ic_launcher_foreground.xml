@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  前景图形：字母 W（Wake / WOL 首字母）+ 底部弧线（唤起的波纹）
+  108dp 画布，图形整体缩至 0.9，确保完全落在 72dp 安全区内，
+  在圆形 / 方形 / squircle 等各种厂商遮罩下都不会被裁切。
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <group
+        android:pivotX="54"
+        android:pivotY="54"
+        android:scaleX="0.9"
+        android:scaleY="0.9">
+
+        <path
+            android:pathData="M28,40 L40,72 L54,52 L68,72 L80,40"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="8"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:fillColor="#00000000" />
+
+        <path
+            android:pathData="M42,84 Q54,91 66,84"
+            android:strokeColor="#A8B4E0"
+            android:strokeWidth="5"
+            android:strokeLineCap="round"
+            android:strokeAlpha="0.9"
+            android:fillColor="#00000000" />
+    </group>
+</vector>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WOL 唤醒</string>
+
+    <!-- 主界面 -->
+    <string name="home_title">我的设备</string>
+    <string name="home_subtitle">局域网唤醒</string>
+    <string name="check_all">全部检测</string>
+    <string name="checking_all">检测中…</string>
+    <string name="add_device">添加设备</string>
+    <string name="wake_all">唤醒全部</string>
+
+    <!-- 状态 -->
+    <string name="status_online">在线</string>
+    <string name="status_offline">离线</string>
+    <string name="status_waking">唤醒中</string>
+    <string name="status_checking">检测中</string>
+    <string name="status_powered">已开机</string>
+    <string name="status_unknown">未知</string>
+
+    <!-- 概览 -->
+    <string name="summary_format">%1$d 台在线 · %2$d 台离线</string>
+    <string name="summary_empty">还没有设备</string>
+
+    <!-- 空状态 -->
+    <string name="empty_title">还没有添加设备</string>
+    <string name="empty_desc">添加电脑的 MAC 与 IP 地址，就能在手机上远程唤醒它</string>
+
+    <!-- 编辑页 -->
+    <string name="edit_title_new">添加设备</string>
+    <string name="edit_title_edit">编辑设备</string>
+    <string name="field_name">设备名称</string>
+    <string name="field_name_hint">例如：客厅主机</string>
+    <string name="field_ip">IP 地址</string>
+    <string name="field_ip_hint">192.168.1.100</string>
+    <string name="field_mac">MAC 地址</string>
+    <string name="field_mac_hint">AA:BB:CC:DD:EE:FF</string>
+    <string name="field_port">端口</string>
+    <string name="field_port_hint">9</string>
+    <string name="field_broadcast">广播地址</string>
+    <string name="field_broadcast_hint">255.255.255.255</string>
+    <string name="field_timeout">唤醒检测时长（秒）</string>
+    <string name="field_timeout_hint">60</string>
+    <string name="tip_wol">需在电脑 BIOS 与网卡属性中开启「网络唤醒 / Wake on LAN」，且电脑需通过网线连接。</string>
+    <string name="action_save">保存</string>
+    <string name="action_delete">删除设备</string>
+    <string name="action_cancel">取消</string>
+    <string name="delete_confirm_title">删除设备</string>
+    <string name="delete_confirm_msg">确定要删除「%1$s」吗？此操作无法撤销。</string>
+    <string name="error_name">请填写设备名称</string>
+    <string name="error_ip">IP 地址格式不正确</string>
+    <string name="error_mac">MAC 地址格式不正确</string>
+
+    <!-- 详情页 -->
+    <string name="detail_title">设备详情</string>
+    <string name="detail_latency">响应延迟</string>
+    <string name="detail_mac">MAC 地址</string>
+    <string name="detail_ip">IP 地址</string>
+    <string name="detail_port">唤醒端口</string>
+    <string name="detail_broadcast">广播地址</string>
+    <string name="detail_last_wake">上次唤醒</string>
+    <string name="detail_never_wake">从未唤醒</string>
+    <string name="detail_wake">唤醒此设备</string>
+    <string name="detail_edit">编辑</string>
+    <string name="detail_refresh">重新检测</string>
+
+    <!-- 提示 -->
+    <string name="toast_need_wifi">未连接 Wi-Fi，请先接入局域网</string>
+    <string name="toast_packet_sent">唤醒包已发送</string>
+    <string name="toast_packet_failed">唤醒包发送失败</string>
+    <string name="toast_wake_success">%1$s 已开机</string>
+    <string name="toast_wake_timeout">唤醒超时，请检查电脑 WOL 设置</string>
+    <string name="toast_saved">已保存</string>
+    <string name="toast_deleted">已删除</string>
+    <string name="toast_already_online">设备已在线</string>
+</resources>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WOL 唤醒 · UI 设计稿</title>
+<style>
+  :root{
+    --bg:#EDF0F6;
+    --phone-bg:#F7F8FC;
+    --card:#FFFFFF;
+    --primary:#4F46E5;
+    --primary-press:#4338CA;
+    --primary-weak:#EEF0FE;
+    --on:#10B981;
+    --on-weak:#E6F8F2;
+    --off:#A0A7B4;
+    --off-weak:#F1F3F7;
+    --text:#141821;
+    --muted:#6C7480;
+    --line:#E5E8F0;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{
+    margin:0;padding:40px 24px 64px;
+    background:var(--bg);
+    font-family:"PingFang SC","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+    color:var(--text);
+  }
+  .page-head{max-width:1200px;margin:0 auto 32px}
+  .page-head h1{font-size:22px;font-weight:600;margin:0 0 8px;letter-spacing:.2px}
+  .page-head p{margin:0;color:var(--muted);font-size:13px;line-height:1.7}
+  .swatches{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .sw{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px 6px 8px;font-size:12px;color:var(--muted)}
+  .sw i{width:14px;height:14px;border-radius:4px;display:block}
+
+  .stage{display:flex;gap:36px;justify-content:center;flex-wrap:wrap;max-width:1240px;margin:0 auto}
+  .phone-wrap{display:flex;flex-direction:column;align-items:center;gap:14px}
+  .phone-label{font-size:12px;color:var(--muted);letter-spacing:.4px}
+  .phone{
+    width:360px;height:748px;background:var(--phone-bg);
+    border:1px solid #D9DEE9;border-radius:30px;overflow:hidden;
+    display:flex;flex-direction:column;position:relative;
+  }
+  .statusbar{
+    height:30px;flex:0 0 30px;display:flex;align-items:center;justify-content:space-between;
+    padding:0 20px;font-size:11px;color:#41485A;font-weight:600;
+  }
+  .statusbar .icons{display:flex;gap:5px;align-items:center}
+  .statusbar .dot{width:5px;height:5px;border-radius:50%;background:#41485A}
+
+  .appbar{flex:0 0 auto;padding:6px 20px 14px;display:flex;align-items:center;justify-content:space-between}
+  .appbar h2{margin:0;font-size:24px;font-weight:600;letter-spacing:.3px}
+  .appbar .sub{margin:3px 0 0;font-size:12px;color:var(--muted)}
+  .icon-btn{
+    width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:#fff;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 auto;
+  }
+  .icon-btn:active{background:var(--off-weak)}
+
+  .summary{
+    margin:0 20px 14px;background:var(--primary-weak);border-radius:14px;
+    padding:12px 16px;display:flex;align-items:center;justify-content:space-between;
+  }
+  .summary .txt{font-size:12px;color:#3F3A99;line-height:1.5}
+  .summary .txt b{font-size:15px;font-weight:600;color:var(--primary)}
+  .summary button{
+    border:none;background:#fff;color:var(--primary);font-size:12px;font-weight:600;
+    padding:8px 14px;border-radius:10px;cursor:pointer;font-family:inherit;
+  }
+  .summary button:active{background:#F2F2FF}
+
+  .list{flex:1 1 auto;overflow-y:auto;padding:0 20px 96px;display:flex;flex-direction:column;gap:10px}
+  .list::-webkit-scrollbar{width:0}
+
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:14px;display:flex;align-items:center;gap:12px;
+  }
+  .card[data-state="on"]{border-color:#CDEDE2}
+  .avatar{
+    width:44px;height:44px;flex:0 0 44px;border-radius:12px;background:var(--primary-weak);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .card[data-state="on"] .avatar{background:var(--on-weak)}
+  .avatar svg{width:22px;height:22px}
+
+  .info{flex:1 1 auto;min-width:0}
+  .info .name{font-size:15px;font-weight:600;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .info .meta{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.2px}
+
+  .right{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:7px}
+  .pill{
+    display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;
+    padding:3px 9px;border-radius:999px;background:var(--off-weak);color:#7A8291;
+  }
+  .pill .d{width:6px;height:6px;border-radius:50%;background:var(--off)}
+  .card[data-state="on"] .pill{background:var(--on-weak);color:#0B7A5B}
+  .card[data-state="on"] .pill .d{background:var(--on)}
+  .card[data-state="search"] .pill{background:#FFF6E5;color:#9A6A00}
+  .card[data-state="search"] .pill .d{background:#F0A202;animation:pulse 1.1s infinite}
+
+  .wake{
+    border:none;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;
+    padding:8px 16px;border-radius:10px;background:var(--primary);color:#fff;
+    min-width:76px;text-align:center;
+  }
+  .wake:active{background:var(--primary-press)}
+  .wake[disabled]{background:var(--off-weak);color:#98A0AE;cursor:default}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+  .fab{
+    position:absolute;right:20px;bottom:24px;width:54px;height:54px;border-radius:18px;
+    background:var(--primary);border:none;display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+  }
+  .fab:active{background:var(--primary-press)}
+
+  .form{padding:0 20px;display:flex;flex-direction:column;gap:16px;flex:1 1 auto}
+  .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:7px;letter-spacing:.2px}
+  .field input{
+    width:100%;height:46px;border-radius:12px;border:1px solid var(--line);background:#fff;
+    padding:0 14px;font-size:14px;font-family:inherit;color:var(--text);outline:none;
+  }
+  .field input:focus{border-color:var(--primary)}
+  .field .hint{font-size:11px;color:#98A0AE;margin-top:6px}
+  .row2{display:flex;gap:12px}
+  .row2 .field{flex:1}
+  .btn-block{
+    height:50px;border-radius:14px;border:none;background:var(--primary);color:#fff;
+    font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;width:100%;
+  }
+  .btn-block:active{background:var(--primary-press)}
+  .btn-ghost{
+    height:50px;border-radius:14px;border:1px solid var(--line);background:#fff;color:var(--text);
+    font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;width:100%;
+  }
+
+  .detail-hero{padding:8px 20px 22px;display:flex;flex-direction:column;align-items:center;gap:14px}
+  .ring{
+    width:124px;height:124px;border-radius:50%;background:var(--on-weak);
+    border:3px solid #B9EBD9;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  }
+  .ring .v{font-size:26px;font-weight:600;color:#0B7A5B;line-height:1}
+  .ring .k{font-size:11px;color:#3E8F76;margin-top:5px}
+  .detail-hero h3{margin:0;font-size:19px;font-weight:600}
+  .detail-hero .addr{font-size:12px;color:var(--muted);font-family:ui-monospace,Menlo,monospace}
+
+  .kv{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:0 20px}
+  .kv .item{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;font-size:13px}
+  .kv .item + .item{border-top:1px solid var(--line)}
+  .kv .k{color:var(--muted)}
+  .kv .v{font-weight:500;font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
+  .actions{padding:18px 20px 24px;display:flex;flex-direction:column;gap:10px;margin-top:auto}
+
+  .toast{
+    position:absolute;left:50%;transform:translateX(-50%);bottom:92px;
+    background:#141821;color:#fff;font-size:12.5px;padding:10px 18px;border-radius:999px;
+    opacity:0;transition:opacity .2s;pointer-events:none;white-space:nowrap;
+  }
+  .toast.show{opacity:.95}
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <h1>WOL 局域网唤醒 · UI 设计稿</h1>
+  <p>点击离线设备的「唤醒」按钮可以看到状态流转：灰色离线 → 黄色检测中 → 绿色在线（模拟 ping 成功）。</p>
+  <div class="swatches">
+    <span class="sw"><i style="background:#4F46E5"></i>主色 #4F46E5</span>
+    <span class="sw"><i style="background:#10B981"></i>在线 #10B981</span>
+    <span class="sw"><i style="background:#A0A7B4"></i>离线 #A0A7B4</span>
+    <span class="sw"><i style="background:#F7F8FC;border:1px solid #D9DEE9"></i>背景 #F7F8FC</span>
+  </div>
+</div>
+
+<div class="stage">
+
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="statusbar"><span>21:12</span><span class="icons"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>
+
+      <div class="appbar">
+        <div>
+          <h2>我的设备</h2>
+          <p class="sub">局域网 192.168.1.*</p>
+        </div>
+        <button class="icon-btn" onclick="refreshAll()" title="全部刷新">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="2" stroke-linecap="round">
+            <path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="summary">
+        <div class="txt"><b id="onlineCnt">1</b> 台在线 · <b id="offlineCnt">2</b> 台离线</div>
+        <button onclick="refreshAll()">全部检测</button>
+      </div>
+
+      <div class="list" id="deviceList">
+
+        <div class="card" data-state="on">
+          <div class="avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0B7A5B" stroke-width="1.8"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <div class="info">
+            <div class="name">书房主机</div>
+            <div class="meta">192.168.1.100 · A4:5E:60:1B:2C:3D</div>
+          </div>
+          <div class="right">
+            <span class="pill"><span class="d"></span><span class="ptxt">在线 12ms</span></span>
+            <button class="wake" disabled>已开机</button>
+          </div>
+        </div>
+
+        <div class="card" data-state="off">
+          <div class="avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="1.8"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <div class="info">
+            <div class="name">客厅 HTPC</div>
+            <div class="meta">192.168.1.101 · 3C:7A:8A:44:19:0F</div>
+          </div>
+          <div class="right">
+            <span class="pill"><span class="d"></span><span class="ptxt">离线</span></span>
+            <button class="wake" onclick="wake(this)">唤醒</button>
+          </div>
+        </div>
+
+        <div class="card" data-state="off">
+          <div class="avatar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="1.8"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="18" height="7" rx="2"/><path d="M7 6.5h.01M7 17.5h.01"/></svg>
+          </div>
+          <div class="info">
+            <div class="name">工作室服务器</div>
+            <div class="meta">192.168.1.150 · 8C:16:45:AA:7B:21</div>
+          </div>
+          <div class="right">
+            <span class="pill"><span class="d"></span><span class="ptxt">离线</span></span>
+            <button class="wake" onclick="wake(this)">唤醒</button>
+          </div>
+        </div>
+
+      </div>
+
+      <button class="fab" onclick="showToast('打开「添加设备」页面')" title="添加设备">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      </button>
+
+      <div class="toast" id="toast">已发送唤醒包</div>
+    </div>
+    <div class="phone-label">① 主界面 · 设备列表</div>
+  </div>
+
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="statusbar"><span>21:12</span><span class="icons"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>
+
+      <div class="appbar">
+        <div style="display:flex;align-items:center;gap:10px">
+          <button class="icon-btn" style="width:34px;height:34px;border-radius:10px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141821" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <h2 style="font-size:19px">添加设备</h2>
+        </div>
+      </div>
+
+      <div class="form">
+        <div class="field">
+          <label>设备名称</label>
+          <input value="卧室主机" placeholder="例如：书房主机">
+        </div>
+
+        <div class="field">
+          <label>IP 地址</label>
+          <input value="192.168.1.102" placeholder="192.168.1.x">
+          <div class="hint">用于 ping 检测在线状态</div>
+        </div>
+
+        <div class="field">
+          <label>MAC 地址</label>
+          <input value="A4:5E:60:11:22:33" placeholder="AA:BB:CC:DD:EE:FF" style="font-family:ui-monospace,Menlo,monospace">
+          <div class="hint">唤醒包的目标物理地址，需在 BIOS 与网卡中启用 WOL</div>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label>端口</label>
+            <input value="9" style="font-family:ui-monospace,Menlo,monospace">
+          </div>
+          <div class="field">
+            <label>广播地址</label>
+            <input value="255.255.255.255" style="font-family:ui-monospace,Menlo,monospace">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>检测间隔</label>
+          <input value="唤醒后持续检测 60 秒">
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-block" onclick="showToast('保存并返回列表')">保存设备</button>
+        <button class="btn-ghost">取消</button>
+      </div>
+
+      <div class="toast" id="toast2">保存成功</div>
+    </div>
+    <div class="phone-label">② 添加 / 编辑设备</div>
+  </div>
+
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="statusbar"><span>21:12</span><span class="icons"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span></div>
+
+      <div class="appbar">
+        <div style="display:flex;align-items:center;gap:10px">
+          <button class="icon-btn" style="width:34px;height:34px;border-radius:10px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#141821" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <h2 style="font-size:19px">设备详情</h2>
+        </div>
+        <button class="icon-btn" style="width:34px;height:34px;border-radius:10px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6C7480" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/><circle cx="5" cy="12" r="1.6"/></svg>
+        </button>
+      </div>
+
+      <div class="detail-hero">
+        <div class="ring">
+          <div class="v">12<span style="font-size:13px;font-weight:500">ms</span></div>
+          <div class="k">在线 · 已连接</div>
+        </div>
+        <h3>书房主机</h3>
+        <div class="addr">192.168.1.100</div>
+      </div>
+
+      <div class="kv">
+        <div class="item"><span class="k">MAC 地址</span><span class="v">A4:5E:60:1B:2C:3D</span></div>
+        <div class="item"><span class="k">唤醒端口</span><span class="v">9</span></div>
+        <div class="item"><span class="k">最近唤醒</span><span class="v">今天 08:42</span></div>
+        <div class="item"><span class="k">自动检测</span><span class="v">每 30 秒</span></div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-block" onclick="showToast('已发送唤醒包')">唤醒此设备</button>
+        <button class="btn-ghost">编辑设备</button>
+      </div>
+
+      <div class="toast" id="toast3">已发送唤醒包</div>
+    </div>
+    <div class="phone-label">③ 设备详情</div>
+  </div>
+
+</div>
+
+<script>
+function showToast(msg){
+  document.querySelectorAll('.toast').forEach(function(t){
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(function(){ t.classList.remove('show'); }, 1600);
+  });
+}
+
+function wake(btn){
+  var card = btn.closest('.card');
+  if(card.dataset.state !== 'off') return;
+
+  card.dataset.state = 'search';
+  card.querySelector('.ptxt').textContent = '唤醒中';
+  card.querySelector('.avatar svg').setAttribute('stroke', '#9A6A00');
+  btn.disabled = true;
+  btn.textContent = '发送中';
+
+  setTimeout(function(){
+    card.dataset.state = 'on';
+    card.querySelector('.ptxt').textContent = '在线 15ms';
+    card.querySelector('.avatar svg').setAttribute('stroke', '#0B7A5B');
+    btn.textContent = '已开机';
+    updateCount();
+    showToast('书房设备已唤醒，ping 通 15ms');
+  }, 2600);
+}
+
+function updateCount(){
+  var on = document.querySelectorAll('.card[data-state="on"]').length;
+  var off = document.querySelectorAll('.card[data-state="off"]').length;
+  document.getElementById('onlineCnt').textContent = on;
+  document.getElementById('offlineCnt').textContent = off;
+}
+
+function refreshAll(){
+  showToast('正在 ping 检测所有设备…');
+  var cards = document.querySelectorAll('.card[data-state="off"]');
+  cards.forEach(function(c, i){
+    c.dataset.state = 'search';
+    c.querySelector('.ptxt').textContent = '检测中';
+    setTimeout(function(){
+      c.dataset.state = 'off';
+      c.querySelector('.ptxt').textContent = '离线';
+    }, 1200 + i * 300);
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C 方案 · 配色备选</title>
+<style>
+  :root{
+    --bg:#EDF0F6;--card:#fff;--line:#E3E7F0;--text:#141821;--muted:#6C7480;--tag:#A6ADBB;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;padding:40px 28px 64px;background:var(--bg);
+    font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;color:var(--text);
+  }
+  .head{max-width:1120px;margin:0 auto 26px}
+  .head h1{margin:0 0 8px;font-size:21px;font-weight:600}
+  .head p{margin:0;font-size:13px;color:var(--muted);line-height:1.75}
+  .head p b{color:#2B303A;font-weight:600}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1120px;margin:0 auto}
+  @media(max-width:920px){.grid{grid-template-columns:repeat(2,1fr)}}
+
+  .item{
+    background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 20px 18px;
+    display:flex;flex-direction:column;align-items:center;
+  }
+  .main-icon{display:flex;justify-content:center;align-items:center;height:108px}
+  .sizes{display:flex;align-items:flex-end;gap:16px;margin-top:4px;height:72px}
+  .size-tag{font-size:10px;color:var(--tag);text-align:center;margin-top:5px}
+
+  .cap{display:flex;justify-content:space-between;width:100%;margin-top:16px;align-items:flex-start;gap:10px}
+  .no{
+    flex:0 0 auto;font-size:11px;font-weight:600;color:#fff;background:#2B303A;
+    width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;
+  }
+  .txt{flex:1 1 auto}
+  .txt h3{margin:0 0 4px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .hex{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;font-weight:500;
+    color:var(--muted);background:#F2F4F9;border-radius:5px;padding:1px 5px;
+  }
+  .txt p{margin:0;font-size:12px;color:var(--muted);line-height:1.62}
+  .best{
+    display:inline-block;font-size:10px;font-weight:600;color:#0B6E4F;background:#E4F6EE;
+    border-radius:5px;padding:2px 6px;margin-left:2px;
+  }
+
+  .sec{max-width:1120px;margin:40px auto 0}
+  .sec h2{font-size:15px;font-weight:600;margin:0 0 6px}
+  .sec .sub{font-size:12.5px;color:var(--muted);margin:0 0 16px;line-height:1.7}
+
+  .desks{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:760px){.desks{grid-template-columns:1fr}}
+  .desk{border-radius:16px;padding:24px 20px 20px;border:1px solid var(--line);overflow:hidden}
+  .desk.dark{background:linear-gradient(160deg,#2E3545 0%,#191D26 100%)}
+  .desk.light{background:linear-gradient(160deg,#E9EEF6 0%,#D9E1EE 100%)}
+  .desk-label{font-size:11px;font-weight:600;letter-spacing:.3px;margin-bottom:16px}
+  .desk.dark .desk-label{color:#9AA4B6}
+  .desk.light .desk-label{color:#8A93A4}
+  .desk-row{display:flex;gap:20px;flex-wrap:wrap}
+  .desk-cell{display:flex;flex-direction:column;align-items:center;gap:7px;width:52px}
+  .desk-cell span{font-size:9.5px;color:rgba(255,255,255,.55)}
+  .desk.light .desk-cell span{color:rgba(30,38,52,.5)}
+
+  .note{max-width:1120px;margin:34px auto 0;font-size:12.5px;color:var(--muted);line-height:1.85;
+        background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+  .note b{color:#2B303A}
+  .note ul{margin:8px 0 0;padding-left:18px}
+  .note li{margin-bottom:5px}
+</style>
+</head>
+<body>
+
+<div class="head">
+  <h1>C 方案 · 配色备选</h1>
+  <p>原版的 <b>#4F46E5</b> 饱和度偏高（约 78%），大面积平铺时会有“发亮、发跳”的感觉，白字压上去反差也偏硬。
+  下面 6 版都往<b>低饱和、深调</b>方向走，另附两档浅色。每版同样给出 96 / 64 / 40 px。</p>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="sec">
+  <h2>桌面实景模拟</h2>
+  <p class="sub">深色壁纸与浅色壁纸并排，48 px 图标 + 名称，贴近真实桌面缩放后的观感。</p>
+  <div class="desks">
+    <div class="desk dark">
+      <div class="desk-label">深色壁纸</div>
+      <div class="desk-row" id="deskDark"></div>
+    </div>
+    <div class="desk light">
+      <div class="desk-label">浅色壁纸</div>
+      <div class="desk-row" id="deskLight"></div>
+    </div>
+  </div>
+</div>
+
+<div class="note">
+  <b>几点判断依据</b>
+  <ul>
+    <li><b>太亮会扎眼</b>：桌面上深色图标更容易沉下去，不会跟其他 App 抢注意力；亮色（尤其高饱和）在浅色壁纸上反而更突兀。</li>
+    <li><b>和状态色不打架</b>：App 内部绿=在线、灰=离线、琥珀=检测中。图标背景若选墨绿/深青，是“品牌色”，跟状态色不冲突；但如果界面主色也换绿，就会和「在线」语义混淆。</li>
+    <li><b>白底款更清爽</b>：现在不少工具类 App 用浅底深字，桌面上一眼干净。缺点是叠在白色壁纸上时存在感偏弱（已加极细边框兜底）。</li>
+  </ul>
+</div>
+
+<script>
+const schemes = [
+  { n:'1', name:'墨绿', bg:'#12463C', fg:'#FFFFFF', arc:'#7FE3C4',
+    desc:'深绿低饱和，和「开机点亮 / 在线」的语义同源。最稳重耐看。', best:true },
+  { n:'2', name:'石墨', bg:'#22262E', fg:'#F4F6F9', arc:'#9AA3B2',
+    desc:'近黑中性色，不挑场景，桌面辨识度最好。缺点是稍显冷淡。', best:false },
+  { n:'3', name:'深青', bg:'#0F4C5C', fg:'#FFFFFF', arc:'#7DD6C8',
+    desc:'比靛蓝更沉，又保留科技感。青与绿的过渡自然。', best:false },
+  { n:'4', name:'藏蓝', bg:'#1D3557', fg:'#F3F6FA', arc:'#8FB3D9',
+    desc:'低饱和深蓝，熟悉稳妥。比原版靛蓝暗两档，不再发紫。', best:false },
+  { n:'5', name:'柔靛', bg:'#3F4A7E', fg:'#FFFFFF', arc:'#A8B4E0',
+    desc:'保留你原来的色相，只降饱和 + 压深。改动最小的一版。', best:false },
+  { n:'6', name:'素白', bg:'#FFFFFF', fg:'#1B1F27', arc:'#10B981',
+    desc:'浅底深字，最清爽；绿弧线保留一点产品语义。', best:false },
+];
+
+function svg(s, size, round){
+  const rx = round ? 54 : 24;
+  const rect = s.bg === '#FFFFFF'
+    ? `<rect x="1" y="1" width="106" height="106" rx="${rx-1}" fill="#FFFFFF" stroke="#D5DCE8" stroke-width="2"/>`
+    : `<rect width="108" height="108" rx="${rx}" fill="${s.bg}"/>`;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 108 108">
+    ${rect}
+    <path d="M28 40L40 72L54 52L68 72L80 40" fill="none" stroke="${s.fg}"
+          stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M42 84Q54 91 66 84" fill="none" stroke="${s.arc}"
+          stroke-width="5" stroke-linecap="round" opacity="0.8"/>
+  </svg>`;
+}
+
+document.getElementById('grid').innerHTML = schemes.map(s => `
+  <div class="item">
+    <div class="main-icon">${svg(s,96)}</div>
+    <div class="sizes">
+      <div>${svg(s,64)}<div class="size-tag">64</div></div>
+      <div>${svg(s,40)}<div class="size-tag">40</div></div>
+    </div>
+    <div class="cap">
+      <span class="no">${s.n}</span>
+      <div class="txt">
+        <h3>${s.name} <span class="hex">${s.bg}</span>${s.best?'<span class="best">推荐</span>':''}</h3>
+        <p>${s.desc}</p>
+      </div>
+    </div>
+  </div>`).join('');
+
+const labels = ['客厅主机','书房 PC','NAS','卧室盒','Mac mini','测试机'];
+function deskRow(id){
+  document.getElementById(id).innerHTML = schemes.map((s,i) => `
+    <div class="desk-cell">${svg(s,48)}<span>${labels[i]}</span></div>`).join('');
+}
+deskRow('deskDark');
+deskRow('deskLight');
+</script>
+
+</body>
+</html>

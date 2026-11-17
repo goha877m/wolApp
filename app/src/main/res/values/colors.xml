@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- ============ 主色：柔靛 ============ -->
+    <color name="primary">#3F4A7E</color>
+    <color name="primary_dark">#333C66</color>
+    <color name="primary_deep">#2A3157</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="primary_container">#E6E9F4</color>
+    <color name="on_primary_container">#2C3459</color>
+    <color name="primary_accent">#A8B4E0</color>
+
+    <!-- ============ 中性色 ============ -->
+    <color name="bg">#F7F8FC</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_muted">#F2F4F9</color>
+    <color name="border">#E7EAF2</color>
+    <color name="divider">#EFF1F7</color>
+
+    <!-- ============ 文字 ============ -->
+    <color name="text_primary">#141821</color>
+    <color name="text_secondary">#6C7480</color>
+    <color name="text_tertiary">#A0A7B4</color>
+    <color name="text_disabled">#C2C8D2</color>
+
+    <!-- ============ 设备状态 ============ -->
+    <color name="status_online">#10B981</color>
+    <color name="status_online_bg">#E6F7F0</color>
+    <color name="status_offline">#A0A7B4</color>
+    <color name="status_offline_bg">#F0F2F6</color>
+    <color name="status_waking">#F0A202</color>
+    <color name="status_waking_bg">#FEF5E3</color>
+
+    <!-- ============ 图标专用 ============ -->
+    <color name="ic_launcher_bg">#3F4A7E</color>
+</resources>

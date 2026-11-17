@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WOL App 图标方案</title>
+<style>
+  :root{
+    --bg:#EDF0F6;--card:#fff;--line:#E3E7F0;--text:#141821;--muted:#6C7480;
+    --primary:#4F46E5;--on:#10B981;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;padding:40px 28px 64px;background:var(--bg);
+    font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;color:var(--text);
+  }
+  .head{max-width:1120px;margin:0 auto 28px}
+  .head h1{margin:0 0 8px;font-size:21px;font-weight:600}
+  .head p{margin:0;font-size:13px;color:var(--muted);line-height:1.7}
+  .grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+    max-width:1120px;margin:0 auto;
+  }
+  @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+  .item{
+    background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 20px 18px;
+    display:flex;flex-direction:column;align-items:center;
+  }
+  .main-icon{display:flex;justify-content:center;align-items:center;height:112px}
+  .sizes{display:flex;align-items:flex-end;gap:16px;margin-top:6px;height:74px}
+  .cap{display:flex;justify-content:space-between;width:100%;margin-top:16px;align-items:flex-start;gap:10px}
+  .no{
+    flex:0 0 auto;font-size:11px;font-weight:600;color:#fff;background:var(--primary);
+    width:22px;height:22px;border-radius:7px;display:flex;align-items:center;justify-content:center;
+  }
+  .txt{flex:1 1 auto}
+  .txt h3{margin:0 0 4px;font-size:14px;font-weight:600}
+  .txt p{margin:0;font-size:12px;color:var(--muted);line-height:1.6}
+  .size-tag{font-size:10px;color:#A6ADBB;text-align:center;margin-top:5px}
+  .foot{max-width:1120px;margin:34px auto 0;font-size:12.5px;color:var(--muted);line-height:1.8}
+</style>
+</head>
+<body>
+
+<div class="head">
+  <h1>WOL 唤醒 App · 图标方案</h1>
+  <p>每个方案给出 96 / 64 / 40 px 三档，请看小尺寸下的辨识度。全部为纯色扁平风格，主色沿用界面靛蓝。</p>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="icA">
+      <rect width="108" height="108" rx="24" fill="#4F46E5"/>
+      <path d="M66.6 36A22 22 0 1 1 41.4 36" fill="none" stroke="#fff" stroke-width="6.5" stroke-linecap="round"/>
+      <path d="M54 26V50" stroke="#fff" stroke-width="6.5" stroke-linecap="round"/>
+    </g>
+    <g id="icB">
+      <rect width="108" height="108" rx="24" fill="#4F46E5"/>
+      <rect x="24" y="30" width="60" height="40" rx="7" fill="#fff"/>
+      <path d="M54 70v9" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+      <path d="M40 84h28" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+      <path d="M58.4 43.6A8 8 0 1 1 49.6 43.6" fill="none" stroke="#4F46E5" stroke-width="4" stroke-linecap="round"/>
+      <path d="M54 38v9" stroke="#4F46E5" stroke-width="4" stroke-linecap="round"/>
+    </g>
+    <g id="icC">
+      <rect width="108" height="108" rx="24" fill="#4F46E5"/>
+      <path d="M28 40L40 72L54 52L68 72L80 40" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M42 84Q54 91 66 84" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity="0.55"/>
+    </g>
+    <g id="icD">
+      <rect width="108" height="108" rx="24" fill="#4F46E5"/>
+      <circle cx="34" cy="54" r="8" fill="#fff"/>
+      <path d="M45.3 42.7A16 16 0 0 1 45.3 65.3" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+      <path d="M52.4 35.6A26 26 0 0 1 52.4 72.4" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+      <path d="M59.5 28.5A36 36 0 0 1 59.5 79.5" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
+    </g>
+    <g id="icE">
+      <rect width="108" height="108" rx="24" fill="#4F46E5"/>
+      <path d="M60 20L32 58H50L46 88L76 48H56Z" fill="#fff"/>
+    </g>
+    <g id="icF">
+      <rect width="108" height="108" rx="24" fill="#4F46E5"/>
+      <path d="M62 34.8A21 21 0 1 1 38 34.8" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+      <path d="M50 25V47" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="76" cy="78" r="11" fill="#10B981" stroke="#4F46E5" stroke-width="6"/>
+    </g>
+  </defs>
+</svg>
+
+<div class="grid">
+
+  <div class="item">
+    <div class="main-icon"><svg width="96" height="96" viewBox="0 0 108 108"><use href="#icA"/></svg></div>
+    <div class="sizes">
+      <div><svg width="64" height="64" viewBox="0 0 108 108"><use href="#icA"/></svg><div class="size-tag">64</div></div>
+      <div><svg width="40" height="40" viewBox="0 0 108 108"><use href="#icA"/></svg><div class="size-tag">40</div></div>
+    </div>
+    <div class="cap"><span class="no">A</span><div class="txt"><h3>电源符号</h3><p>最直白：唤醒=开机。识别度最高，缺点是同类工具很常见。</p></div></div>
+  </div>
+
+  <div class="item">
+    <div class="main-icon"><svg width="96" height="96" viewBox="0 0 108 108"><use href="#icB"/></svg></div>
+    <div class="sizes">
+      <div><svg width="64" height="64" viewBox="0 0 108 108"><use href="#icB"/></svg><div class="size-tag">64</div></div>
+      <div><svg width="40" height="40" viewBox="0 0 108 108"><use href="#icB"/></svg><div class="size-tag">40</div></div>
+    </div>
+    <div class="cap"><span class="no">B</span><div class="txt"><h3>显示器 + 电源</h3><p>明确表达“电脑”，语义最完整。40px 下细节略密。</p></div></div>
+  </div>
+
+  <div class="item">
+    <div class="main-icon"><svg width="96" height="96" viewBox="0 0 108 108"><use href="#icC"/></svg></div>
+    <div class="sizes">
+      <div><svg width="64" height="64" viewBox="0 0 108 108"><use href="#icC"/></svg><div class="size-tag">64</div></div>
+      <div><svg width="40" height="40" viewBox="0 0 108 108"><use href="#icC"/></svg><div class="size-tag">40</div></div>
+    </div>
+    <div class="cap"><span class="no">C</span><div class="txt"><h3>字母 W</h3><p>WOL / Wake 的首字母，品牌感强、缩放最稳。含义需靠引导。</p></div></div>
+  </div>
+
+  <div class="item">
+    <div class="main-icon"><svg width="96" height="96" viewBox="0 0 108 108"><use href="#icD"/></svg></div>
+    <div class="sizes">
+      <div><svg width="64" height="64" viewBox="0 0 108 108"><use href="#icD"/></svg><div class="size-tag">64</div></div>
+      <div><svg width="40" height="40" viewBox="0 0 108 108"><use href="#icD"/></svg><div class="size-tag">40</div></div>
+    </div>
+    <div class="cap"><span class="no">D</span><div class="txt"><h3>广播波</h3><p>对应 Magic Packet 广播的本质，动态感强。偏“网络工具”气质。</p></div></div>
+  </div>
+
+  <div class="item">
+    <div class="main-icon"><svg width="96" height="96" viewBox="0 0 108 108"><use href="#icE"/></svg></div>
+    <div class="sizes">
+      <div><svg width="64" height="64" viewBox="0 0 108 108"><use href="#icE"/></svg><div class="size-tag">64</div></div>
+      <div><svg width="40" height="40" viewBox="0 0 108 108"><use href="#icE"/></svg><div class="size-tag">40</div></div>
+    </div>
+    <div class="cap"><span class="no">E</span><div class="txt"><h3>闪电</h3><p>强调“一键唤起”的爽感，视觉最抢眼，但语义偏泛（易被认为充电/加速）。</p></div></div>
+  </div>
+
+  <div class="item">
+    <div class="main-icon"><svg width="96" height="96" viewBox="0 0 108 108"><use href="#icF"/></svg></div>
+    <div class="sizes">
+      <div><svg width="64" height="64" viewBox="0 0 108 108"><use href="#icF"/></svg><div class="size-tag">64</div></div>
+      <div><svg width="40" height="40" viewBox="0 0 108 108"><use href="#icF"/></svg><div class="size-tag">40</div></div>
+    </div>
+    <div class="cap"><span class="no">F</span><div class="txt"><h3>电源 + 在线点</h3><p>电源符号加绿点，把界面的“绿=在线”语义带进图标，和 App 内部视觉一致。</p></div></div>
+  </div>
+
+</div>
+
+<div class="foot">
+  说明：Android 自适应图标（Android 8.0+）由“前景图形 + 背景色”两层组成，以上方案都能直接拆成矢量前景 + 纯色背景，
+  并在各厂商的圆角/圆形裁切下保持完整；同时会另出一份单色版本用于通知栏小图标。
+</div>
+
+</body>
+</html>

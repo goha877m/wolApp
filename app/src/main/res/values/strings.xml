@@ -5,6 +5,8 @@
     <!-- 主界面 -->
     <string name="home_title">我的设备</string>
     <string name="home_subtitle">局域网唤醒</string>
+    <string name="home_subtitle_ip">局域网唤醒 · 本机 %1$s</string>
+    <string name="home_subtitle_offline">局域网唤醒 · 未连接 Wi-Fi</string>
     <string name="check_all">全部检测</string>
     <string name="checking_all">检测中…</string>
     <string name="add_device">添加设备</string>
@@ -21,6 +23,13 @@
     <!-- 概览 -->
     <string name="summary_format">%1$d 台在线 · %2$d 台离线</string>
     <string name="summary_empty">还没有设备</string>
+    <string name="summary_waking">%1$d 台正在唤醒…</string>
+    <string name="summary_hint">点击右侧刷新状态</string>
+
+    <!-- 卡片按钮 -->
+    <string name="detail_wake_short">唤醒</string>
+    <string name="wake_button_busy">唤醒中</string>
+    <string name="wake_button_online">已开机</string>
 
     <!-- 空状态 -->
     <string name="empty_title">还没有添加设备</string>
@@ -50,6 +59,7 @@
     <string name="error_name">请填写设备名称</string>
     <string name="error_ip">IP 地址格式不正确</string>
     <string name="error_mac">MAC 地址格式不正确</string>
+    <string name="error_mac_duplicate">该 MAC 已存在于「%1$s」</string>
 
     <!-- 详情页 -->
     <string name="detail_title">设备详情</string>

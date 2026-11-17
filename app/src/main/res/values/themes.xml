@@ -28,4 +28,36 @@
     </style>
 
     <style name="Theme.Wol" parent="Base.Theme.Wol" />
+
+    <!-- 表单输入框：去掉下划线，扁平化 -->
+    <style name="Widget.Wol.Field" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@null</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:paddingTop">9dp</item>
+        <item name="android:paddingBottom">9dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textColorHint">@color/text_tertiary</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- 字段标签 -->
+    <style name="Widget.Wol.Label" parent="">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- 信息行左侧标题 -->
+    <style name="Widget.Wol.RowLabel" parent="">
+        <item name="android:textSize">12.5sp</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <!-- 信息行右侧值 -->
+    <style name="Widget.Wol.RowValue" parent="">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
 </resources>
